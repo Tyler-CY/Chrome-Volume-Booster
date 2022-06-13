@@ -8,4 +8,13 @@ gainNode.gain.value = 1;
 mediaElementAudioSourceNode.connect(gainNode);
 gainNode.connect(audioContext.destination);
 
-gainNode.gain.value = 0.5;
+chrome.runtime.onMessage.addListener(function (request) {
+        if (request.message === "adjust_volume") {
+            console.log(request.value);
+            let volumeMultipler = request.value / 100;
+            if (0 <= volumeMultipler && volumeMultipler <= 3){
+                gainNode.gain.value = volumeMultipler;
+            }
+        }
+    }
+);
