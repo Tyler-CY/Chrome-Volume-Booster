@@ -7,13 +7,16 @@ document.getElementById("volumeSlider").addEventListener("input", setSliderOutpu
 document.getElementById("confirmButton").addEventListener("click", handleConfirmButton);
 
 
-// Show the slider value in the HTML page
+// Show the slider value in the HTML page.
 function setSliderOutputValue() {
+    // Update the variables
     volumePercentage = document.getElementById("volumeSlider").value;
+    // Update popup.html
     document.getElementById("output").textContent = volumePercentage + "%";
     document.getElementById("confirmMessage").textContent = "";
 }
 
+// Sends a message to content.js to request adjustment of volume.
 function handleConfirmButton() {
     document.getElementById("confirmMessage").textContent = "Settings Applied!";
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
