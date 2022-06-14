@@ -16,5 +16,10 @@
   "permissions": [
     "activeTab",
     "scripting"
-  ]
+  ],
+  "icons": {
+    "16": "icons/moviemusicicon16.png",
+    "64": "icons/moviemusicicon64.png",
+    "128": "icons/moviemusicicon128.png"
+  }
 }
