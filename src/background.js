@@ -1,5 +1,5 @@
 // Default value of volume percentage
-let volumePercentage = 500;
+let volumePercentage = 100;
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.set({ volumePercentage });
