@@ -4,6 +4,7 @@ function main() {
     // Assume there is only one video element on the HTML page, since querySelector returns the first video.
     const mediaStream = document.querySelector("video");
 
+
     // Get a GainNode so that we can change the gain value upon request.
     const gainNode = createGainNodeFromAudioContext(mediaStream);
 
