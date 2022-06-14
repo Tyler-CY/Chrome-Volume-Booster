@@ -1,24 +1,30 @@
-main();
+// Gain Node controls the volume of the Media Stream
+let gainNode;
 
-function main() {
+// Add a listener to initialize gainNode and adjust volume
+chrome.runtime.onMessage.addListener(function (request) {
+        if (request.message === "adjust_volume") {
+
+            gainNode = gainNode || firstTimeSetUp();
+
+            console.log(request.value);
+            let volumeMultiplier = request.value / 100;
+            if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
+                gainNode.gain.value = volumeMultiplier;
+            }
+        }
+    }
+);
+
+function firstTimeSetUp() {
     // Assume there is only one video element on the HTML page, since querySelector returns the first video.
     const mediaStream = document.querySelector("video");
-
 
     // Get a GainNode so that we can change the gain value upon request.
     const gainNode = createGainNodeFromAudioContext(mediaStream);
 
-    // Listen to buttons in popup.html to adjust the volume based on user's input.
-    chrome.runtime.onMessage.addListener(function (request) {
-            if (request.message === "adjust_volume") {
-                console.log(request.value);
-                let volumeMultiplier = request.value / 100;
-                if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
-                    gainNode.gain.value = volumeMultiplier;
-                }
-            }
-        }
-    );
+    return gainNode
+
 }
 
 function createGainNodeFromAudioContext(mediaStream) {
