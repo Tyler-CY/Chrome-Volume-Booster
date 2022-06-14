@@ -5,6 +5,7 @@ Button 64
 body {
     padding: 5px;
     font-weight: bold;
+    background-color: #9dff94;
 }
 
 
@@ -15,6 +16,7 @@ button {
    border: none;
    width: 150px;
    font-weight: bold;
+    margin-top: 5px;
 
    color: #8200ff;
    background: linear-gradient(75deg , #2BC0E4 0%, #11fff8 50%, #06ffd2 75%, #0ffafa 100%);
