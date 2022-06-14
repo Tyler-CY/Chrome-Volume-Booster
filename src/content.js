@@ -4,9 +4,6 @@ function main() {
     // Assume there is only one video element on the HTML page, since querySelector returns the first video.
     const mediaStream = document.querySelector("video");
 
-    // If there is no video available on this page then do nothing
-    if (!mediaStream) return;
-
     // Get a GainNode so that we can change the gain value upon request.
     const gainNode = createGainNodeFromAudioContext(mediaStream);
 
@@ -16,12 +13,7 @@ function main() {
                 console.log(request.value);
                 let volumeMultiplier = request.value / 100;
                 if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
-                    try {
-                        gainNode.gain.value = volumeMultiplier;
-                    }
-                    catch (e){
-                        console.log("No video detected.");
-                    }
+                    gainNode.gain.value = volumeMultiplier;
                 }
             }
         }
