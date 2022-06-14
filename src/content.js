@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener(function (request) {
         if (request.message === "adjust_volume") {
             console.log(request.value);
             let volumeMultipler = request.value / 100;
-            if (0 <= volumeMultipler && volumeMultipler <= 3){
+            if (0 <= volumeMultipler && volumeMultipler <= 5){
                 gainNode.gain.value = volumeMultipler;
             }
         }
