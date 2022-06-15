@@ -1,7 +1,7 @@
 {
   "name": "Chrome Volume Booster",
   "description": "For boosting the volume of YouTube videos.",
-  "version": "0.1",
+  "version": "1.0",
   "manifest_version": 3,
   "content_scripts": [
     {
