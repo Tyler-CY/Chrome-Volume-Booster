@@ -81,7 +81,7 @@ function handleResetButton() {
     // Reset tab volume percentage to default.
     currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
     // Update the volume percentage of the current tab.
-    sessionStorage.setItem(tabKey, String(currentVolumePercentage));
+    localStorage.setItem(tabKey, String(currentVolumePercentage));
 
     // Send a message to content.js to adjust the volume accordingly.
     ApplyNewVolume();
