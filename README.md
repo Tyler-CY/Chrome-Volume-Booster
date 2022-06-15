@@ -39,7 +39,9 @@ This project is built with Javascript, HTML and CSS only.
 3. Go to [Chrome Extensions](chrome://extensions/) (If the hyperlink doesn't work, the link is chrome://extensions/).
 4. Turn on "Developer Mode" on the top right corner and select "Load unpacked" on the top left corner.
 5. Select the directory Chrome-Volume-Booster-master (or Chrome-Volume-Booster-master-VERSION_NUMBER).
-6. Restart Google Chrome.
+6. Enable "Chrome Volume Booster" and restart Google Chrome.
+
+   ![Screenshot showing steps 4 to 6](setup_screenshot.png)
 
 ### Executing program
 
