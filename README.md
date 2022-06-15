@@ -9,7 +9,7 @@ video elements via AudioContext. Users can adjust the volume of the video elemen
 
 The inspiration of this project is that I often stumble across YouTube videos that have very low volume which makes it very hard to follow along.
 Although there are a lot of similar Chrome Extensions on Chrome Web Store, some of the popular ones are either not open sourced, or requires many more permissions 
-than actually required. Moreover, I also wanted to practice my Javascript, HTML and CSS skills, so I made this project as a useful tools and a coding practice for myself.
+than actually required. Moreover, I also wanted to practice my Javascript, HTML and CSS skills, so I made this project as a useful tool and a coding practice for myself.
 
 Challenges faced in this project includes managing permissions required, going through the documentations to find relevant libraries and methods, as well as making a clean and easy-to-use interface for Chrome users.
 
