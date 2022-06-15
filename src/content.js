@@ -23,8 +23,7 @@ function firstTimeSetUp() {
     // Get a GainNode so that we can change the gain value upon request.
     const gainNode = createGainNodeFromAudioContext(mediaStream);
 
-    return gainNode
-
+    return gainNode;
 }
 
 function createGainNodeFromAudioContext(mediaStream) {
