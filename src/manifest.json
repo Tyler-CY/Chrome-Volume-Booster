@@ -15,8 +15,7 @@
   },
   "permissions": [
     "activeTab",
-    "tabs",
-    "storage"
+    "tabs"
   ],
   "icons": {
     "16": "icons/moviemusicicon16.png",
