@@ -30,7 +30,7 @@ This project is built with Javascript, HTML and CSS only.
 5. Select the directory Chrome-Volume-Booster-master (or Chrome-Volume-Booster-master-VERSION_NUMBER).
 6. Enable "Chrome Volume Booster" and restart Google Chrome.
 
-   ![Screenshot showing steps 4 to 6](setup_screenshot.png)
+   ![screenshot showing steps 4 to 6](setup_screenshot.png)
 
 ### Executing program
 
