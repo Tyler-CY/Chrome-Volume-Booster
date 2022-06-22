@@ -21,5 +21,8 @@
     "16": "icons/moviemusicicon16.png",
     "64": "icons/moviemusicicon64.png",
     "128": "icons/moviemusicicon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
