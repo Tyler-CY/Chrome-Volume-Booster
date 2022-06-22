@@ -10,6 +10,7 @@ chrome.tabs.onUpdated.addListener(
                     value: DEFAULT_VOLUME_PERCENTAGE
                 }
             );
+            chrome.runtime.sendMessage({message: "reset"});
         }
     }
 );

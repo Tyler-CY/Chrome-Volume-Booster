@@ -9,6 +9,11 @@ var currentVolumePercentage;
 initializeCurrentVolumePercentage();
 initializeDom();
 
+chrome.runtime.onMessage.addListener(function(request){
+    if (request.message === "reset"){
+        handleResetButton();
+    }
+})
 
 /*
 Helper Functions
