@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(function (request) {
             gainNode = gainNode || firstTimeSetUp();
 
             if (gainNode){
-                console.log(request.value);
+                console.log("Volume changed: " + request.value);
                 let volumeMultiplier = request.value / 100;
                 if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
                     gainNode.gain.value = volumeMultiplier;
@@ -23,7 +23,7 @@ function firstTimeSetUp() {
     const mediaStream = document.querySelector("video");
 
     if (!mediaStream){
-        return;
+        return null;
     }
 
     // Get a GainNode so that we can change the gain value upon request.
