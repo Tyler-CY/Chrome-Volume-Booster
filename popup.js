@@ -8,18 +8,40 @@ var currentVolumePercentage;
 // popup.html set-up
 initializeCurrentVolumePercentage();
 initializeDom();
-
 chrome.runtime.onMessage.addListener(function(request){
     if (request.message === "reset"){
         handleResetButton();
     }
 })
 
+
 /*
 Helper Functions
  */
 
-// Initialize the Current Volume Percentage according to local storage, or set to default value
+/**
+ * Listens to any request to change popup.html
+ * Used whenever the tab loads a new page (new url) and the volume slider resets automatically.
+ */
+function initializeListeners() {
+    chrome.runtime.onMessage.addListener(function (request) {
+        if (request.message === "reset") {
+            // Notify User
+            document.getElementById("confirmMessage").textContent = "Volume Resetted!";
+            document.getElementById("volumeSlider").value = DEFAULT_VOLUME_PERCENTAGE;
+            document.getElementById("output").textContent = DEFAULT_VOLUME_PERCENTAGE + "%";
+
+            // Reset tab volume percentage to default.
+            currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
+            // Update the volume percentage of the current tab.
+            localStorage.setItem(tabKey, String(currentVolumePercentage));
+        }
+    });
+}
+
+/**
+ * Initialize the Current Volume Percentage according to local storage, or set to default value
+ */
 function initializeCurrentVolumePercentage() {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
 
@@ -42,7 +64,9 @@ function initializeCurrentVolumePercentage() {
     });
 }
 
-// Initialize popup.html
+/**
+ * Initialize popup.html
+ */
 function initializeDom() {
 // Initialize input action of the slide bar
     document.getElementById("volumeSlider").addEventListener("input", setSliderOutputValue);
@@ -52,7 +76,9 @@ function initializeDom() {
     document.getElementById("resetButton").addEventListener("click", handleResetButton);
 }
 
-// Show the slider value in the HTML page.
+/**
+ * Show the slider value in the HTML page.
+ */
 function setSliderOutputValue() {
     // Update the variables
     currentVolumePercentage = document.getElementById("volumeSlider").value;
@@ -61,7 +87,9 @@ function setSliderOutputValue() {
     document.getElementById("confirmMessage").textContent = "";
 }
 
-// Sends a message to content.js to request adjustment of volume.
+/**
+ * Sends a message to content.js to request adjustment of volume.
+ */
 function handleConfirmButton() {
     // Notify user
     document.getElementById("confirmMessage").textContent = "Settings Applied!";
@@ -70,12 +98,13 @@ function handleConfirmButton() {
     localStorage.setItem(tabKey, String(currentVolumePercentage));
 
     // Send a message to content.js to adjust the volume accordingly.
-    ApplyNewVolume();
+    applyNewVolume();
 }
 
 
-
-// Sends a message to content.js to request adjustment of volume.
+/**
+ * Sends a message to content.js to request adjustment of volume.
+ */
 function handleResetButton() {
 
     // Notify User
@@ -89,12 +118,15 @@ function handleResetButton() {
     localStorage.setItem(tabKey, String(currentVolumePercentage));
 
     // Send a message to content.js to adjust the volume accordingly.
-    ApplyNewVolume();
+    applyNewVolume();
 }
 
-// Call content.js to apply the new volume (i.e. currentVolumePercentage) to the Gain Node.
-// Prerequisite: currentVolumePercentage is updated.
-function ApplyNewVolume() {
+/**
+ * Call content.js to apply the new volume (i.e. currentVolumePercentage) to the Gain Node.
+ * Prerequisite: currentVolumePercentage is updated.
+ * @constructor
+ */
+function applyNewVolume() {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(
             tabs[0].id,
