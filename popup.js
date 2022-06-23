@@ -2,17 +2,14 @@
 const DEFAULT_VOLUME_PERCENTAGE = 100;
 // (Global) Variables
 let tabKey;
-var currentVolumePercentage;
+var currentTabVolumePercentage;
 
 
 // popup.html set-up
+// initializeCurrentVolumePercentage();
 initializeDom();
-
 initializeListeners();
-
-initializeCurrentVolumePercentage();
-
-
+getTabVolumePercentageValue();
 
 
 /*
@@ -26,40 +23,23 @@ Helper Functions
 function initializeListeners() {
     chrome.runtime.onMessage.addListener(function (request) {
         if (request.message === "reset") {
-            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                let tabId = tabs[0].id;
-                tabKey = "volumePercentage" + tabId;
+            // // Reset tab volume percentage to default.
+            // currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
+            // // Update the volume percentage of the current tab.
+            // localStorage.setItem(tabKey, String(currentVolumePercentage));
 
-                // Reset tab volume percentage to default.
-                localStorage.removeItem(tabKey);
+            // localStorage.clear();
+            // chrome.storage.local.clear();
+
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                chrome.tabs.sendMessage(
+                    tabs[0].id,
+                    {
+                        message: "debug",
+                        value: "Called from popup.js"
+                    });
             });
         }
-    });
-}
-
-/**
- * Initialize the Current Volume Percentage according to local storage, or set to default value
- */
-function initializeCurrentVolumePercentage() {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-
-        let tabId = tabs[0].id;
-        tabKey = "volumePercentage" + tabId;
-
-        currentVolumePercentage = localStorage.getItem(tabKey);
-        // if null, then set as default value and store in localstorage
-        if (currentVolumePercentage == null) {
-            currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
-            localStorage.setItem(tabKey, String(currentVolumePercentage));
-        }
-        // Do casting here after checking for null. (It's not a good idea to do Number(null)).
-        currentVolumePercentage = Number(currentVolumePercentage);
-
-        // Set the default value of the volume slider
-        document.getElementById("volumeSlider").value = currentVolumePercentage;
-        // Set the default value of the volume slider output text
-        document.getElementById("output").textContent = currentVolumePercentage + "%";
-        // document.getElementById("confirmMessage").textContent = "Tab ID: " + tabId + "\nPreset Volume: " + localStorage.getItem(tabKey) + "%";
     });
 }
 
@@ -79,10 +59,8 @@ function initializeDom() {
  * Show the slider value in the HTML page.
  */
 function setSliderOutputValue() {
-    // Update the variables
-    currentVolumePercentage = document.getElementById("volumeSlider").value;
     // Update popup.html
-    document.getElementById("output").textContent = currentVolumePercentage + "%";
+    document.getElementById("output").textContent = document.getElementById("volumeSlider").value + "%";
     document.getElementById("confirmMessage").textContent = "";
 }
 
@@ -93,10 +71,10 @@ function handleConfirmButton() {
     // Notify user
     document.getElementById("confirmMessage").textContent = "Settings Applied!";
 
-    // Update the volume percentage of the current tab.
-    localStorage.setItem(tabKey, String(currentVolumePercentage));
+    // Call content.js to save the new volume in storage.
+    saveNewVolume();
 
-    // Send a message to content.js to adjust the volume accordingly.
+    // Send a message to content.js to adjust the volume.
     applyNewVolume();
 }
 
@@ -105,25 +83,12 @@ function handleConfirmButton() {
  * Sends a message to content.js to request adjustment of volume.
  */
 function handleResetButton() {
-
-    // Notify User
-    document.getElementById("confirmMessage").textContent = "Volume Resetted!";
-    document.getElementById("volumeSlider").value = DEFAULT_VOLUME_PERCENTAGE;
-    document.getElementById("output").textContent = DEFAULT_VOLUME_PERCENTAGE + "%";
-
-    // Reset tab volume percentage to default.
-    currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
-    // Update the volume percentage of the current tab.
-    localStorage.setItem(tabKey, String(currentVolumePercentage));
-
-    // Send a message to content.js to adjust the volume accordingly.
-    applyNewVolume();
+    resetVolume();
 }
 
 /**
  * Call content.js to apply the new volume (i.e. currentVolumePercentage) to the Gain Node.
  * Prerequisite: currentVolumePercentage is updated.
- * @constructor
  */
 function applyNewVolume() {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -131,7 +96,58 @@ function applyNewVolume() {
             tabs[0].id,
             {
                 message: "adjust_volume",
-                value: currentVolumePercentage
             });
     });
+}
+
+/**
+ * Call content.js to save the new volume (i.e. currentVolumePercentage).
+ */
+function saveNewVolume() {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+                message: "save_volume",
+                value: document.getElementById("volumeSlider").value
+            });
+    });
+}
+
+/**
+ * Call content.js to reset the volume to default value.
+ */
+function resetVolume() {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        // Reset the DOM.
+        document.getElementById("volumeSlider").value = DEFAULT_VOLUME_PERCENTAGE;
+        document.getElementById("output").textContent = DEFAULT_VOLUME_PERCENTAGE + "%";
+
+        // Send a message to content.js to reset volume.
+        chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+                message: "reset_volume",
+            });
+    });
+}
+
+/**
+ * Call content.js to get the saved volume value
+ */
+function getTabVolumePercentageValue() {
+    chrome.tabs.query({active: true, currentWindow: true},
+        function (tabs) {
+            chrome.tabs.sendMessage(
+                tabs[0].id,
+                {
+                    message: "get_volume",
+                },
+                function (response) {
+                    document.getElementById("volumeSlider").value = response;
+                    document.getElementById("output").textContent = response + "%";
+                }
+            );
+        },
+    );
 }
