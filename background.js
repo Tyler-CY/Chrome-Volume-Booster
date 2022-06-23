@@ -2,6 +2,11 @@ const DEFAULT_VOLUME_PERCENTAGE = 100;
 
 chrome.tabs.onUpdated.addListener(
     function(tabId, changeInfo, tab){
+
+        // Change popup.html
+        chrome.runtime.sendMessage({message: "reset"});
+
+        // Reset the gain node
         if (changeInfo.url){
             chrome.tabs.sendMessage(
                 tabId,
@@ -10,7 +15,6 @@ chrome.tabs.onUpdated.addListener(
                     value: DEFAULT_VOLUME_PERCENTAGE
                 }
             );
-            chrome.runtime.sendMessage({message: "reset"});
         }
     }
 );
