@@ -6,13 +6,13 @@ var currentVolumePercentage;
 
 
 // popup.html set-up
-initializeCurrentVolumePercentage();
 initializeDom();
-chrome.runtime.onMessage.addListener(function(request){
-    if (request.message === "reset"){
-        handleResetButton();
-    }
-})
+
+initializeListeners();
+
+initializeCurrentVolumePercentage();
+
+
 
 
 /*
@@ -26,15 +26,13 @@ Helper Functions
 function initializeListeners() {
     chrome.runtime.onMessage.addListener(function (request) {
         if (request.message === "reset") {
-            // Notify User
-            document.getElementById("confirmMessage").textContent = "Volume Resetted!";
-            document.getElementById("volumeSlider").value = DEFAULT_VOLUME_PERCENTAGE;
-            document.getElementById("output").textContent = DEFAULT_VOLUME_PERCENTAGE + "%";
+            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                let tabId = tabs[0].id;
+                tabKey = "volumePercentage" + tabId;
 
-            // Reset tab volume percentage to default.
-            currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
-            // Update the volume percentage of the current tab.
-            localStorage.setItem(tabKey, String(currentVolumePercentage));
+                // Reset tab volume percentage to default.
+                localStorage.removeItem(tabKey);
+            });
         }
     });
 }
@@ -61,6 +59,7 @@ function initializeCurrentVolumePercentage() {
         document.getElementById("volumeSlider").value = currentVolumePercentage;
         // Set the default value of the volume slider output text
         document.getElementById("output").textContent = currentVolumePercentage + "%";
+        // document.getElementById("confirmMessage").textContent = "Tab ID: " + tabId + "\nPreset Volume: " + localStorage.getItem(tabKey) + "%";
     });
 }
 
