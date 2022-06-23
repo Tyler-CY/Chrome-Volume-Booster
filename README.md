@@ -48,6 +48,8 @@ If the video on the website doesn't appear to have its volume adjusted, refresh 
 
 * 1.0
     * Initial Release
+* 1.1
+    * Added safety features to prevent physical equipment damage
 
 ## 
 
