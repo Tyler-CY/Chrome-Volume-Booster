@@ -7,10 +7,12 @@ chrome.runtime.onMessage.addListener(function (request) {
 
             gainNode = gainNode || firstTimeSetUp();
 
-            console.log(request.value);
-            let volumeMultiplier = request.value / 100;
-            if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
-                gainNode.gain.value = volumeMultiplier;
+            if (gainNode){
+                console.log(request.value);
+                let volumeMultiplier = request.value / 100;
+                if (0 <= volumeMultiplier && volumeMultiplier <= 5) {
+                    gainNode.gain.value = volumeMultiplier;
+                }
             }
         }
     }
@@ -19,6 +21,10 @@ chrome.runtime.onMessage.addListener(function (request) {
 function firstTimeSetUp() {
     // Assume there is only one video element on the HTML page, since querySelector returns the first video.
     const mediaStream = document.querySelector("video");
+
+    if (!mediaStream){
+        return;
+    }
 
     // Get a GainNode so that we can change the gain value upon request.
     const gainNode = createGainNodeFromAudioContext(mediaStream);
