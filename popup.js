@@ -1,47 +1,12 @@
-// CONSTANTS
-const DEFAULT_VOLUME_PERCENTAGE = 100;
-// (Global) Variables
-let tabKey;
-var currentTabVolumePercentage;
-
-
 // popup.html set-up
 // initializeCurrentVolumePercentage();
 initializeDom();
-initializeListeners();
 getTabVolumePercentageValue();
 
 
 /*
 Helper Functions
  */
-
-/**
- * Listens to any request to change popup.html
- * Used whenever the tab loads a new page (new url) and the volume slider resets automatically.
- */
-function initializeListeners() {
-    chrome.runtime.onMessage.addListener(function (request) {
-        if (request.message === "reset") {
-            // // Reset tab volume percentage to default.
-            // currentVolumePercentage = DEFAULT_VOLUME_PERCENTAGE;
-            // // Update the volume percentage of the current tab.
-            // localStorage.setItem(tabKey, String(currentVolumePercentage));
-
-            // localStorage.clear();
-            // chrome.storage.local.clear();
-
-            chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-                chrome.tabs.sendMessage(
-                    tabs[0].id,
-                    {
-                        message: "debug",
-                        value: "Called from popup.js"
-                    });
-            });
-        }
-    });
-}
 
 /**
  * Initialize popup.html
