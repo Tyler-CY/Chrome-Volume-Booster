@@ -1,5 +1,6 @@
+const DEFAULT_VOLUME_PERCENTAGE = 100;
+
 // popup.html set-up
-// initializeCurrentVolumePercentage();
 initializeDom();
 getTabVolumePercentageValue();
 
