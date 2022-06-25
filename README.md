@@ -2,6 +2,10 @@
 
 A Google Chrome Extension for boosting HTML5 video elements.
 
+UI| Features
+--- | ---
+![Extension UI](./doc/img/popup_screenshot.png) |   <ul><li>Volume selection from 0 to 500%</li><li>Confirm Button for Safety</li><li>Volume resets to 100% upon loading a new page</li></ul>
+
 ## Description
 
 Volume Booster for Chrome scans for video elements on the current active tab and tweaks the volume of the
@@ -30,7 +34,7 @@ This project is built with Javascript, HTML and CSS only.
 5. Select the directory Chrome-Volume-Booster-master (or Chrome-Volume-Booster-master-VERSION_NUMBER).
 6. Enable "Chrome Volume Booster" and restart Google Chrome.
 
-   ![screenshot showing steps 4 to 6](setup_screenshot.png)
+   ![screenshot showing steps 4 to 6](doc/img/setup_screenshot.png)
 
 ### Executing program
 
