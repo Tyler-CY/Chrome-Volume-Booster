@@ -44,6 +44,11 @@ This project is built with Javascript, HTML and CSS only.
 ## Help
 
 If the video on the website doesn't appear to have its volume adjusted, refresh the tab and start the extension again. All other tabs should be working.
+### Known issues
+- All the issues mentioned below is due to the fact that AudioContext cannot be launched without the user starting popup.html (as far as I know). However, some websites do not have this problem.
+- YouTube: when YouTube is open for the first time, the extension requires a page refresh to work.
+- Streamable: extension currently does not work on streamable. Users must temporarily disable the extension before using Streamable. I am currently working on this issue actively. Sorry for any inconvenience.
+
 ## Authors
 
 [Tyler-CY](https://github.com/Tyler-CY)
